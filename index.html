@@ -61,6 +61,7 @@
     <div class="controls">
         <button class="btn" onclick="changeFontSize(-3)">-</button>
         <button class="btn" onclick="changeFontSize(3)">+</button>
+        <button class="btn" onclick="hideKeyboard()" style="margin-top: 5px;">⌨</button>
     </div>
     
     <textarea id="notes" placeholder="Start typing your notes..."></textarea>
@@ -75,6 +76,10 @@
             if (fontSize > 48) fontSize = 48;
             textarea.style.fontSize = fontSize + 'px';
             localStorage.setItem('fontSize', fontSize);
+        }
+        
+        function hideKeyboard() {
+            textarea.blur(); // Remove focus to hide keyboard
         }
         
         // Auto-save to localStorage
