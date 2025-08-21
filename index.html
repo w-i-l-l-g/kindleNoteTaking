@@ -48,7 +48,6 @@
             border: none;
             outline: none;
             padding: 20px;
-            padding-top: 100vh; /* Add space above so first line can scroll down */
             padding-bottom: 100vh; /* Add space so first lines can scroll */
             font-size: 16px;
             font-family: serif;
@@ -92,15 +91,21 @@
             const lines = textBeforeCursor.split('\n');
             const currentLine = lines.length;
             
-            // Calculate line height and position
+            // Calculate how much space we need above to position cursor line at bottom
             const lineHeight = parseInt(getComputedStyle(textarea).lineHeight);
+            const linesNeededToFillScreen = Math.ceil(window.innerHeight / lineHeight);
             
-            // Account for top padding (100vh) and position cursor line at bottom of viewport
-            const topPadding = window.innerHeight;
-            const cursorY = topPadding + (currentLine - 1) * lineHeight;
-            const targetY = cursorY - window.innerHeight + lineHeight;
-            
-            textarea.scrollTop = targetY;
+            if (currentLine < linesNeededToFillScreen) {
+                // Add margin-top to push content down so cursor line appears at bottom
+                const marginNeeded = window.innerHeight - (currentLine * lineHeight) - 40;
+                textarea.style.marginTop = Math.max(0, marginNeeded) + 'px';
+            } else {
+                // Remove margin and use normal scrolling for longer content
+                textarea.style.marginTop = '0px';
+                const cursorY = (currentLine - 1) * lineHeight + 20;
+                const targetY = cursorY - window.innerHeight + lineHeight;
+                textarea.scrollTop = targetY;
+            }
         }
         
         // Load saved notes and font size
