@@ -24,6 +24,7 @@
             right: 10px;
             z-index: 10;
             display: flex;
+            flex-direction: column;
             gap: 5px;
         }
         
@@ -61,7 +62,7 @@
     <div class="controls">
         <button class="btn" onclick="changeFontSize(-3)">-</button>
         <button class="btn" onclick="changeFontSize(3)">+</button>
-        <button class="btn" onclick="hideKeyboard()" style="margin-top: 5px;">⌨</button>
+        <button class="btn" onclick="hideKeyboard()">⌨</button>
     </div>
     
     <textarea id="notes" placeholder="Start typing your notes..."></textarea>
@@ -80,6 +81,7 @@
         
         function hideKeyboard() {
             textarea.blur(); // Remove focus to hide keyboard
+            textarea.style.marginTop = '0px'; // Clear any margin padding
         }
         
         // Auto-save to localStorage
