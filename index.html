@@ -56,6 +56,26 @@
             resize: none;
             background: white;
         }
+        
+        .comma-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 40px;
+            border: 2px solid #333;
+            background: white;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            z-index: 10;
+        }
+        
+        .comma-btn:active {
+            background: #eee;
+        }
     </style>
 </head>
 <body>
@@ -66,6 +86,8 @@
     </div>
     
     <textarea id="notes" placeholder="Start typing your notes..."></textarea>
+    
+    <button id="commaBtn" class="comma-btn" onclick="insertComma()" style="display: none;">,</button>
     
     <script>
         let fontSize = 16;
@@ -82,12 +104,28 @@
         function hideKeyboard() {
             textarea.blur(); // Remove focus to hide keyboard
             textarea.style.marginTop = '0px'; // Clear any margin padding
+            document.getElementById('commaBtn').style.display = 'none'; // Hide comma button
+        }
+        
+        function insertComma() {
+            const cursorPos = textarea.selectionStart;
+            const textBefore = textarea.value.substring(0, cursorPos);
+            const textAfter = textarea.value.substring(cursorPos);
+            textarea.value = textBefore + ',' + textAfter;
+            textarea.setSelectionRange(cursorPos + 1, cursorPos + 1); // Move cursor after comma
+            textarea.focus(); // Keep focus on textarea
+            localStorage.setItem('notes', textarea.value); // Save to localStorage
+        }
+        
+        function showCommaButton() {
+            document.getElementById('commaBtn').style.display = 'block';
         }
         
         // Auto-save to localStorage
         textarea.addEventListener('input', function() {
             localStorage.setItem('notes', this.value);
             snapToKeyboard();
+            showCommaButton(); // Show comma button after first keystroke
         });
         
         
