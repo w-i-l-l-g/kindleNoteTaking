@@ -48,6 +48,7 @@
             border: none;
             outline: none;
             padding: 20px;
+            padding-top: 100vh; /* Add space above so first line can scroll down */
             padding-bottom: 100vh; /* Add space so first lines can scroll */
             font-size: 16px;
             font-family: serif;
@@ -93,9 +94,10 @@
             
             // Calculate line height and position
             const lineHeight = parseInt(getComputedStyle(textarea).lineHeight);
-            const cursorY = (currentLine - 1) * lineHeight;
             
-            // Snap cursor line to bottom of viewport (top of keyboard)
+            // Account for top padding (100vh) and position cursor line at bottom of viewport
+            const topPadding = window.innerHeight;
+            const cursorY = topPadding + (currentLine - 1) * lineHeight;
             const targetY = cursorY - window.innerHeight + lineHeight;
             
             textarea.scrollTop = targetY;
