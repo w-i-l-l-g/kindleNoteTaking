@@ -79,11 +79,11 @@
         // Auto-save to localStorage
         textarea.addEventListener('input', function() {
             localStorage.setItem('notes', this.value);
-            scrollToCursor();
+            snapToKeyboard();
         });
         
-        // Keep cursor line above keyboard
-        function scrollToCursor() {
+        // Simple: snap cursor line to bottom of viewport when typing
+        function snapToKeyboard() {
             const cursorPosition = textarea.selectionStart;
             const textBeforeCursor = textarea.value.substring(0, cursorPosition);
             const lines = textBeforeCursor.split('\n');
@@ -93,8 +93,8 @@
             const lineHeight = parseInt(getComputedStyle(textarea).lineHeight);
             const cursorY = (currentLine - 1) * lineHeight;
             
-            // Position cursor line about 1/3 from top of viewport
-            const targetY = cursorY - (window.innerHeight * 0.33);
+            // Snap cursor line to bottom of viewport (top of keyboard)
+            const targetY = cursorY - window.innerHeight + lineHeight;
             
             textarea.scrollTop = Math.max(0, targetY);
         }
