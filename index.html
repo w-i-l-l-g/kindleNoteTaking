@@ -48,6 +48,7 @@
             border: none;
             outline: none;
             padding: 20px;
+            padding-bottom: 100vh; /* Add space so first lines can scroll */
             font-size: 16px;
             font-family: serif;
             line-height: 1.4;
@@ -97,7 +98,7 @@
             // Snap cursor line to bottom of viewport (top of keyboard)
             const targetY = cursorY - window.innerHeight + lineHeight;
             
-            textarea.scrollTop = Math.max(0, targetY);
+            textarea.scrollTop = targetY;
         }
         
         // Load saved notes and font size
