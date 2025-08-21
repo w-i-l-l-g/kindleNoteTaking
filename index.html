@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: serif;
+            background: white;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .controls {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+            display: flex;
+            gap: 5px;
+        }
+        
+        .btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #333;
+            background: white;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        .btn:active {
+            background: #eee;
+        }
+        
+        #notes {
+            width: 100%;
+            height: 100vh;
+            border: none;
+            outline: none;
+            padding: 20px;
+            font-size: 16px;
+            font-family: serif;
+            line-height: 1.4;
+            resize: none;
+            background: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <button class="btn" onclick="changeFontSize(-3)">-</button>
+        <button class="btn" onclick="changeFontSize(3)">+</button>
+    </div>
+    
+    <textarea id="notes" placeholder="Start typing your notes..."></textarea>
+    
+    <script>
+        let fontSize = 16;
+        const textarea = document.getElementById('notes');
+        
+        function changeFontSize(delta) {
+            fontSize += delta;
+            if (fontSize < 8) fontSize = 8;
+            if (fontSize > 48) fontSize = 48;
+            textarea.style.fontSize = fontSize + 'px';
+            localStorage.setItem('fontSize', fontSize);
+        }
+        
+        // Auto-save to localStorage
+        textarea.addEventListener('input', function() {
+            localStorage.setItem('notes', this.value);
+        });
+        
+        // Load saved notes and font size
+        const saved = localStorage.getItem('notes');
+        if (saved) {
+            textarea.value = saved;
+        }
+        
+        const savedFontSize = localStorage.getItem('fontSize');
+        if (savedFontSize) {
+            fontSize = parseInt(savedFontSize);
+            textarea.style.fontSize = fontSize + 'px';
+        }
+        
+        // Focus the textarea on load
+        textarea.focus();
+    </script>
+</body>
+</html>
