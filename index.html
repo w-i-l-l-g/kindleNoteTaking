@@ -97,7 +97,7 @@
             
             if (currentLine < linesNeededToFillScreen) {
                 // Add margin-top to push content down so cursor line appears at bottom
-                const marginNeeded = window.innerHeight - (currentLine * lineHeight) - 40;
+                const marginNeeded = window.innerHeight - (currentLine * lineHeight);
                 textarea.style.marginTop = Math.max(0, marginNeeded) + 'px';
             } else {
                 // Remove margin and use normal scrolling for longer content
